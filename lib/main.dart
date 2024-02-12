@@ -6,7 +6,7 @@ import 'package:por_maria_app/pages/drawer_pages/settings_page.dart';
 import 'package:por_maria_app/pages/drawer_pages/contacts_page.dart';
 import 'package:por_maria_app/pages/home_pages/chat_group_pages/chats_list_page.dart';
 import 'package:por_maria_app/pages/home_pages/events_page.dart';
-import 'package:por_maria_app/pages/home_pages/home_page.dart';
+import 'package:por_maria_app/pages/home_pages/home_group_pages/home_page.dart';
 import 'package:por_maria_app/pages/home_pages/musics_group_pages/musics_page.dart';
 
 void main() {

@@ -60,6 +60,9 @@ class _ChatMessageState extends State<ChatMessagePage>
             Flexible(
               child: TextField(
                 controller: _textController,
+                decoration: const InputDecoration(
+                  hintText: 'Escribe el texto',
+                ),
               ),
             ),
             Container(

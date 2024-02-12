@@ -16,6 +16,10 @@ class MusicsPage extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 204, 230, 248),
         actions: <Widget>[
           IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons
+                  .search)), // TODO: implementar boton de busqueda de canciones
+          IconButton(
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
