@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:por_maria_app/commons/Constants.dart';
+import 'package:por_maria_app/commons/HttpHandler.dart';
+import 'package:por_maria_app/models/user_model.dart';
 import 'package:por_maria_app/ui/home/main_screen.dart';
 import 'package:por_maria_app/utils/design_utils/design.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
@@ -51,45 +55,76 @@ class _LogInSignInState extends State<LogInSignIn> {
   bool _loading = false;
 
   Future<void> _onGoPressed() async {
+    UserModel _userModel;
+    bool existUser = false;
     final username = _usernameTextFieldController.text;
     final password = _passwordTextFieldController.text;
     if (username.isNotEmpty && password.isNotEmpty) {
-      final client = StreamChat.of(context).client;
-      final token = client.devToken(username);
       setState(() {
-        _loading = true;
+        _usernameError = "";
+        _paswwordError = "";
       });
+      // Crear un mapa con los valores
+      final Map<String, dynamic> userLoginData = {
+        'username': username,
+        'password': password,
+      };
+
+      // Convertir el mapa a una cadena JSON
+      final String jsonUserLoginData = json.encode(userLoginData);
       try {
-        await client.connectUser(
-            User(id: username, extraData: {
-              'image': DesignUtils.getUserImage(username),
-            }),
-            token.rawValue);
+        var data = await HttpHandler().userLogin(jsonUserLoginData);
         setState(() {
-          _loading = false;
+          _userModel = UserModel.fromJson(data);
+          existUser = true;
         });
-
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const MainScreenPage()));
       } catch (e) {
-        // Maneja cualquier error que pueda ocurrir durante la conexión o autenticación.
         print('Error durante la conexión: $e');
-        // También puedes mostrar un mensaje de error al usuario si es necesario.
+      }
 
+      if (existUser) {
+        final client = StreamChat.of(context).client;
+        final token = client.devToken(username);
         setState(() {
-          _loading = false;
-          _loginError = "Error de autenticación";
+          _loading = true;
         });
+        try {
+          await client.connectUser(
+              User(id: username, extraData: {
+                'image': DesignUtils.getUserImage(username),
+              }),
+              token.rawValue);
+          setState(() {
+            _loading = false;
+            _loginError = "";
+          });
+
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => const MainScreenPage()));
+        } catch (e) {
+          // Maneja cualquier error que pueda ocurrir durante la conexión o autenticación.
+          print('Error durante la conexión: $e');
+          // También puedes mostrar un mensaje de error al usuario si es necesario.
+
+          setState(() {
+            _loading = false;
+            _loginError = "Error de autenticación";
+          });
+        }
+      } else {
+        _loginError = "No existe el usuario";
       }
     } else {
-      setState(() {
-        _usernameError = "Ingrese el nombre de usuario";
-      });
-    }
-    if (password.isNotEmpty) {
-      setState(() {
-        _paswwordError = "Ingrese la contraseña";
-      });
+      if (username.isEmpty) {
+        setState(() {
+          _usernameError = "Ingrese el nombre de usuario";
+        });
+      }
+      if (password.isEmpty) {
+        setState(() {
+          _paswwordError = "Ingrese la contraseña";
+        });
+      }
     }
   }
 
@@ -100,6 +135,7 @@ class _LogInSignInState extends State<LogInSignIn> {
           child: _loading
               ? const CircularProgressIndicator()
               : Card(
+                  surfaceTintColor: Colors.white,
                   elevation: 11,
                   margin: const EdgeInsets.all(15.0),
                   child: Padding(
@@ -107,11 +143,19 @@ class _LogInSignInState extends State<LogInSignIn> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('Bienvenido a PorMariApp'),
+                          const Text(
+                            'Bienvenido a PorMariApp',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                           TextField(
                             controller: _usernameTextFieldController,
                             decoration: InputDecoration(
+                                hintStyle: const TextStyle(color: Colors.white),
                                 hintText: 'Usuario',
+                                errorStyle:
+                                    TextStyle(color: Colors.redAccent[700]),
                                 errorText: _usernameError.isEmpty
                                     ? _loginError
                                     : _usernameError),
@@ -119,14 +163,25 @@ class _LogInSignInState extends State<LogInSignIn> {
                           TextField(
                             controller: _passwordTextFieldController,
                             decoration: InputDecoration(
+                                hintStyle: const TextStyle(color: Colors.white),
                                 hintText: 'Contraseña',
+                                errorStyle:
+                                    TextStyle(color: Colors.redAccent[700]),
                                 errorText: _paswwordError.isEmpty
                                     ? _loginError
                                     : _paswwordError),
                           ),
-                          ElevatedButton(
-                              onPressed: _onGoPressed,
-                              child: const Text('Iniciar sesión'))
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                  onPressed: _onGoPressed,
+                                  child: const Text('Iniciar sesión')),
+                              ElevatedButton(
+                                  onPressed: null,
+                                  child: const Text('Registrarte')),
+                            ],
+                          ),
                         ],
                       )))),
     );

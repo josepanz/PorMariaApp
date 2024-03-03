@@ -14,15 +14,39 @@ class PersonModel {
   String lastNames;
   List<PersonContactModel> personContact;
 
-  PersonModel(
-      this.id,
-      this.names,
-      this.civilStatus,
-      this.active,
-      this.birthdate,
-      this.creationDate,
-      this.disabledDate,
-      this.personType,
-      this.lastNames,
-      this.personContact);
+  PersonModel({
+    required this.id,
+    required this.names,
+    required this.civilStatus,
+    required this.active,
+    required this.birthdate,
+    required this.creationDate,
+    required this.disabledDate,
+    required this.personType,
+    required this.lastNames,
+    required this.personContact,
+  });
+
+  factory PersonModel.fromJson(Map<String, dynamic> json) {
+    return PersonModel(
+      id: json['id'] as int? ?? 101,
+      names: json['names'] as String? ?? "",
+      civilStatus: CivilStatusModel.fromJson(
+          json['civilStatus'] as Map<String, dynamic>? ?? Map()),
+      active: json['active'] as bool? ?? false,
+      birthdate: json['birthdate'] as String? ?? "",
+      creationDate: json['creationDate'] as String? ?? "",
+      // Usar operador nulo para manejar valores nulos en el JSON
+      disabledDate: json['disabledDate'] as String? ?? "",
+      personType: PersonTypeModel.fromJson(
+          json['personType'] as Map<String, dynamic>? ?? Map()),
+      lastNames: json['lastNames'] as String? ?? "",
+      // Usar operador nulo para manejar valores nulos en el JSON
+      personContact: (json['personContact'] as List<dynamic>?)
+              ?.map((contact) => PersonContactModel.fromJson(
+                  contact as Map<String, dynamic>? ?? Map()))
+              .toList() ??
+          [],
+    );
+  }
 }

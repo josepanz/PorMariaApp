@@ -10,8 +10,35 @@ class UserModel {
   String disabledDate;
   PersonModel person;
   String password;
-  List<MembershipModel> membership;
+  List<MembershipModel> memberships;
 
-  UserModel(this.id, this.code, this.username, this.active, this.creationDate,
-      this.disabledDate, this.person, this.password, this.membership);
+  UserModel(
+      {required this.id,
+      required this.code,
+      required this.username,
+      required this.active,
+      required this.creationDate,
+      required this.disabledDate,
+      required this.person,
+      required this.password,
+      required this.memberships});
+
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'] as int? ?? 107,
+      code: json['code'] as String? ?? "",
+      username: json['username'] as String? ?? "",
+      active: json['active'] as bool? ?? false,
+      creationDate: json['creationDate'] as String? ?? "",
+      disabledDate: json['disabledDate'] as String? ?? "",
+      person: PersonModel.fromJson(
+          json['person'] as Map<String, dynamic>? ?? Map()),
+      password: json['password'] as String? ?? "",
+      memberships: (json['membership'] as List<dynamic>?)
+              ?.map((membership) => MembershipModel.fromJson(
+                  membership as Map<String, dynamic>? ?? Map()))
+              .toList() ??
+          [],
+    );
+  }
 }

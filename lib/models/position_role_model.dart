@@ -7,5 +7,19 @@ class PositionRoleModel {
   RoleModel role;
   String assignmentDate;
 
-  PositionRoleModel(this.id, this.position, this.role, this.assignmentDate);
+  PositionRoleModel(
+      {required this.id,
+      required this.position,
+      required this.role,
+      required this.assignmentDate});
+
+  factory PositionRoleModel.fromJson(Map<String, dynamic> json) {
+    return PositionRoleModel(
+      id: json['id'] as int? ?? 97,
+      position: PositionModel.fromJson(
+          json['position'] as Map<String, dynamic>? ?? Map()),
+      role: RoleModel.fromJson(json['role'] as Map<String, dynamic>? ?? Map()),
+      assignmentDate: json['assignmentDate'] as String? ?? "",
+    );
+  }
 }

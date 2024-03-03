@@ -5,5 +5,16 @@ class PersonContactTypeModel {
   bool isSocialMedia;
 
   PersonContactTypeModel(
-      this.id, this.description, this.creationDatetime, this.isSocialMedia);
+      {required this.id,
+      required this.description,
+      required this.creationDatetime,
+      required this.isSocialMedia});
+
+  factory PersonContactTypeModel.fromJson(Map<String, dynamic> json) {
+    return PersonContactTypeModel(
+        id: json["id"] as int? ?? 100,
+        description: json["description"] as String? ?? "",
+        creationDatetime: json["creationDatetime"] as String? ?? "",
+        isSocialMedia: json["isSocialMedia"] as bool? ?? false);
+  }
 }

@@ -22,6 +22,10 @@ class MyApp extends StatelessWidget {
           bottomAppBarTheme: const BottomAppBarTheme(color: Colors.redAccent),
           bottomNavigationBarTheme: const BottomNavigationBarThemeData(
               backgroundColor: Colors.redAccent),
+          inputDecorationTheme: InputDecorationTheme(
+              fillColor: Colors.white,
+              focusColor: Colors.white,
+              hoverColor: Colors.white),
           colorScheme: const ColorScheme(
               brightness: Brightness.light,
               primary: Colors.black,

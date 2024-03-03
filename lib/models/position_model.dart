@@ -9,6 +9,28 @@ class PositionModel {
   String disabledDate;
   List<PositionRoleModel> positionRole;
 
-  PositionModel(this.id, this.code, this.description, this.active,
-      this.creationDate, this.disabledDate, this.positionRole);
+  PositionModel(
+      {required this.id,
+      required this.code,
+      required this.description,
+      required this.active,
+      required this.creationDate,
+      required this.disabledDate,
+      required this.positionRole});
+
+  factory PositionModel.fromJson(Map<String, dynamic> json) {
+    return PositionModel(
+      id: json['id'] as int? ?? 104,
+      active: json['active'] as bool? ?? false,
+      creationDate: json['creationDate'] as String? ?? "",
+      disabledDate: json['disabledDate'] as String? ?? "",
+      code: json["code"] as String? ?? "",
+      description: json["description"] as String? ?? "",
+      positionRole: (json['positionRole'] as List<dynamic>?)
+              ?.map((positionRole) => PositionRoleModel.fromJson(
+                  positionRole as Map<String, dynamic>? ?? Map()))
+              .toList() ??
+          [],
+    );
+  }
 }
