@@ -4,7 +4,7 @@ import 'package:por_maria_app/pages/drawer_pages/about_page.dart';
 import 'package:por_maria_app/pages/drawer_pages/profile_page.dart';
 import 'package:por_maria_app/pages/drawer_pages/settings_page.dart';
 import 'package:por_maria_app/pages/drawer_pages/contacts_page.dart';
-import 'package:por_maria_app/ui/sing_in/sing_in_page.dart';
+import 'package:por_maria_app/ui/sing_in/sign_in_page.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(const MyApp()));
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         ),
         debugShowCheckedModeBanner: false,
         // home: StartPageWithTabs(),
-        home: SingInPage(),
+        home: SignInPage(),
         routes: <String, WidgetBuilder>{
           SettingsPage.routeName: (context) => SettingsPage(),
           ProfilePage.routeName: (context) => ProfilePage(),

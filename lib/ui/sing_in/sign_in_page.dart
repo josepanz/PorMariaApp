@@ -8,14 +8,14 @@ import 'package:por_maria_app/ui/home/main_screen.dart';
 import 'package:por_maria_app/utils/design_utils/design.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
-class SingInPage extends StatefulWidget {
-  const SingInPage({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  _SingInPageState createState() => _SingInPageState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _SingInPageState extends State<SingInPage> {
+class _SignInPageState extends State<SignInPage> {
   late StreamChatClient _streamChatClient;
 
   @override
