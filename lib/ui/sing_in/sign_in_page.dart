@@ -76,6 +76,7 @@ class _LogInSignInState extends State<LogInSignIn> {
         var data = await HttpHandler().userLogin(jsonUserLoginData);
         setState(() {
           _userModel = UserModel.fromJson(data);
+          print('data $_userModel');
           existUser = true;
         });
       } catch (e) {
@@ -89,18 +90,26 @@ class _LogInSignInState extends State<LogInSignIn> {
           _loading = true;
         });
         try {
-          await client.connectUser(
-              User(id: username, extraData: {
-                'image': DesignUtils.getUserImage(username),
-              }),
-              token.rawValue);
-          setState(() {
-            _loading = false;
-            _loginError = "";
-          });
+          print(client.wsConnectionStatus);
+          if (ConnectionStatus.connected == client.wsConnectionStatus) {
+            await client.disconnectUser();
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => MainScreenPage()));
+          } else {
+            await client.connectUser(
+                User(id: username, extraData: {
+                  'image': DesignUtils.getUserImage(username),
+                }),
+                token.rawValue);
 
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => const MainScreenPage()));
+            setState(() {
+              _loading = false;
+              _loginError = "";
+            });
+
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => MainScreenPage()));
+          }
         } catch (e) {
           // Maneja cualquier error que pueda ocurrir durante la conexión o autenticación.
           print('Error durante la conexión: $e');

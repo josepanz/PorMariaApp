@@ -4,7 +4,10 @@ class ContactPage extends StatelessWidget {
   static const String routeName = "/contacts";
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Contactos'),
+      ),
       backgroundColor: Color.fromARGB(255, 204, 230, 248),
       body: Center(
         child: Column(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:por_maria_app/commons/HttpHandler.dart';
 import 'package:por_maria_app/models/media_model.dart';
-import 'package:por_maria_app/pages/home_pages/home_group_pages/home_page_list_time.dart';
+import 'package:por_maria_app/ui/pages/home_pages/home_group_pages/home_page_list_time.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,18 +10,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Media> _media = <Media>[];
+  bool _isMounted = false;
 
   @override
   void initState() {
     super.initState();
+    _isMounted = true;
     _loadJson();
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
   }
 
   _loadJson() async {
     var data = await HttpHandler().fetchMovies();
-    setState(() {
-      _media.addAll(data);
-    });
+    if (_isMounted) {
+      setState(() {
+        _media.addAll(data);
+      });
+    }
   }
 
   @override

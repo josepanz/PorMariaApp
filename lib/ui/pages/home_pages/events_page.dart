@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../utils/calendar_utils/calendar_utils.dart';
+import '../../../utils/calendar_utils/calendar_utils.dart';
 
 class EventsPage extends StatefulWidget {
   @override
@@ -81,10 +81,22 @@ class _EventsPageState extends State<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).appBarTheme.backgroundColor;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Por Maria - Eventos'),
-        backgroundColor: const Color.fromARGB(255, 204, 230, 248),
+        title: Text(
+          'Por Maria - Eventos',
+          style: TextStyle(
+            fontSize: 24,
+            color: textColor,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        automaticallyImplyLeading: false,
+        // backgroundColor: const Color.fromARGB(255, 204, 230, 248),
+        centerTitle: false,
+        elevation: 0,
+        backgroundColor: Theme.of(context).canvasColor,
       ),
       body: Column(
         children: [

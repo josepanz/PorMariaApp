@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:por_maria_app/models/music_model.dart';
-import 'package:por_maria_app/pages/home_pages/musics_group_pages/music_item.dart';
+import 'package:por_maria_app/ui/pages/home_pages/musics_group_pages/music_item.dart';
 
 class MusicList extends StatelessWidget {
   final List<MusicModel> _musicsList;

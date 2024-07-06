@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:por_maria_app/models/chat_model.dart';
-import 'package:por_maria_app/pages/home_pages/chat_group_pages/chat_messages_pages.dart';
+import 'package:por_maria_app/ui/pages/home_pages/chat_group_pages/chat_messages_pages.dart';
 
 class ChatsListPage extends StatefulWidget {
   const ChatsListPage({super.key});
